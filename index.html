@@ -102,6 +102,166 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    // Expose: Step 2 - Adding Buttons for Console Testing
+    errorBtns[0].addEventListener('click', function() {
+      console.log("Console Log Demo");
+    });
+    errorBtns[1].addEventListener('click', function() {
+      console.error("Console Error Demo");
+    });
+    errorBtns[2].addEventListener('click', function() {
+      console.count("Count Button");
+    });
+    errorBtns[3].addEventListener('click', function() {
+      console.warn("Console Warn Button");
+    });
+    errorBtns[4].addEventListener('click', function() {
+      const number = 2;
+      const errorMsg = 'The number does not equal 3';
+      console.assert(number === 3, {number, errorMsg});
+    });
+    errorBtns[5].addEventListener('click', function () {
+      console.clear();
+    });
+    errorBtns[6].addEventListener('click', function () {
+      console.dir(errorBtns[6]);
+      //console.dir(document.head);
+    });
+    errorBtns[7].addEventListener('click', function () {
+      console.dirxml(errorBtns[7]);
+    });
+    errorBtns[8].addEventListener('click', function () {
+      console.group();
+      //console.log("Console Group Start");
+    });
+    errorBtns[9].addEventListener('click', function () {
+      console.groupEnd();
+      // console.log("Console Group End");
+    });
+    errorBtns[10].addEventListener('click', function () {
+      var classes = [
+        {
+          name: "Software Engineering", 
+          num: 110
+        },
+        {
+          name: "Programming Language:Principle&Paradigm", 
+          num: 130
+        }, 
+        {
+          name: "Advanced Software Engineering", 
+          num: 112
+        }
+      ];
+      console.table(classes);
+    });
+    
+    errorBtns[11].addEventListener('click', function () {
+      console.time("Timer Button");
+    });
+    errorBtns[12].addEventListener('click', function () {
+      console.timeEnd("Timer Button");
+    });
+    errorBtns[13].addEventListener('click', function handleBtnClick () {
+      const deep = () => { deeper(); };
+      const deeper = () => { deepest(); };
+      const deepest = () => { console.trace();};
+      deep();
+    });
+  
+
+    // Explore: Step 3 - Trying Try/Catch
+    errorBtns[14].addEventListener('click', function handleBtnClick () {
+      let json = '{ "age": 30 }'; 
+      try {
+        let user = JSON.parse(json);
+        // undefined triggering the reference error
+        boom ();
+        // throw syntax error if no user name
+        if (!user.name) { 
+          throw new SyntaxError(); // unexpected error because the reference error occurs
+        }
+      } catch (err) {
+        console.log("Sadly an error happened my friend");
+        if (err instanceof ReferenceError) {
+          console.error("Uncaught " + err.stack); // "ReferenceError" for accessing an undefined variable boom
+        }
+      } finally {
+        // always run this block no matter block caught or not
+        console.log("Finally block finished");
+      }
+    });
+
+  
+    // Explore: Step 4 - Throw and Custom Errors
+    // The "pseudocode" for the built-in Error class defined by JavaScript itself
+    class ZeroDivisionCustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ZeroDivisionCustomError";
+      }
+    }
+    function testDivide (firstOperand, secondOperand) {
+      if (secondOperand == 0) {
+        throw new ZeroDivisionCustomError("Whoops, you cannot put a 0 as the second operand when dividing!");
+      }
+    }
+    try {
+      // 3 / 0 would be an error so throw a zero division error
+      testDivide(3, 0);
+    } catch (err) {
+      console.error(err.stack); // a list of nested calls with line numbers for each
+    } finally {
+      console.log("Finally block finished");
+    }
+
+
+    // Explore: Step 5 - The Global Error handler and 3rd Party Tracking
+    window.onerror = function (message, url, line, column, error) {
+      console.log("A global error occurred:");
+      console.log("Message:", message);
+      console.log("URL:", url);
+      console.log("Line:", line);
+      console.log("Column:", column);
+      console.log("Error object:", error);
+    };
+    // Trigger an error for demonstration purposes
+    function readData() {
+      badFunction(); // Whoops, something went wrong!
+    }
+    readData();
+
+
+    /*
+      Follow the demo video to output a syntax error for example if '2a' + 2 is entered
+    */
+    // Get the button element by its id
+    var calculateButton = document.getElementById("calculate");
+    // Attach an event listener to the button
+    calculateButton.addEventListener("click", function () {
+      var firstInputFieldValue = document.getElementById("first-num").value;
+      var secondInputFieldValue = document.getElementById("second-num").value;
+      try {
+        // Attempt to convert the input value to a number
+        var firstNumericValue = Number(firstInputFieldValue);
+        var secondNumericValue = Number(secondInputFieldValue);
+        // Check if the converted value is NaN
+        if (isNaN(firstNumericValue)) {
+          throw new Error();
+        }
+        if (isNaN(secondNumericValue)) {
+          throw new Error();
+        }
+      } catch (err) {
+        console.log("Sadly an error happened my friend");
+        if (err instanceof SyntaxError) {
+          console.error(err.stack);
+        }
+      }
+    });
+    
+    TrackJS.track('Testing TrackJS!');
   </script>
 </body>
 
